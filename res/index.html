@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN" window-icon="rice://res/img/App.ico" window-frame="transparent" window-resizable="false" >
+<head>
+    <meta charset="gb2312">
+    <title></title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    html{
+        overflow-x:hidden;
+        overflow-y:hidden;
+        border-radius: 5px;
+        background-color: rgba(0,0,0,0);
+    }
+    body{
+        width: 600px;
+        height: 150px;
+    }
+    .main{
+        width: 600px;
+        height: 150px;
+        position: absolute;
+    }
+    .navigation{
+        width: 600px;
+        height: 20px;
+        display: block;
+
+    }
+    .bar{
+        width: 600px;
+        height: 50px;
+        margin-top: 5px;
+    }
+    .close {
+        color: #FF9800;
+        border-radius: 10px;
+        line-height: 15px;
+        text-align: center;
+        height: 15px;
+        width: 15px;
+        font-size: 20px;
+        padding: 5px;
+        top: -5px;
+        right: 0px;
+        position: absolute;
+        cursor:pointer
+    }
+    .close::before {
+        content: "\2715";
+    }
+    .close:hover{
+        color: deepskyblue;
+    }
+    progress.custom {
+        width: 600px;
+        height: 50px;
+        font-size: 24px;
+        line-height: 50px;
+        text-align: center;
+        appearance: none;
+        background-color:gold;
+        color: #FF005EFF;
+    }
+    progress.custom>span {
+        color: white;
+        font-family: "fangsong";
+        font-style: italic;
+        font-weight: bold;
+    }
+</style>
+<body>
+    <div class="main">
+        <div class="navigation">
+            <a class="close"></a>
+        </div>
+        <div class="bar">
+            <progress.custom min="1" max="5" value="0" />
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    var $view=Window.this;
+    document.on('click','a.close',function (){
+        $view.close()
+    })
+
+    function callback(param) {
+        $view.isTopmost=true
+        var $progress = document.$("progress");
+        $progress.value=param
+        if (param==5) {
+            $progress.innerHTML="<span>处 理 完 成, 重 启 浏 览 器！！！</span>"
+            setTimeout(function () {
+                $view.close()
+            }, 3000)
+        }
+        // view.modal(<info>{s}</info>)
+    }
+
+    document.ready = function() {
+        var $progress = document.$("progress");
+        $progress.innerHTML="<span>正 在 处 理 中......</span>"
+        setTimeout(function () {
+            $view.isTopmost=true
+            $view.xcall('start',callback);
+        },500)
+    }
+</script>
+</html>
